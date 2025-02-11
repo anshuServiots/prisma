@@ -14,7 +14,9 @@ datasource db {
 }    
 
 model User{
-  id      Int @id @default(autoincrement())
+  id      String @id @default(uuid())
   email   String @unique
-  name    String?
+  name    String
+  password String
+  isDeleted Boolean @default(false)
 }
