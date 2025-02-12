@@ -9,7 +9,6 @@ import { Request } from "express";
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const validationError = {
-      status: 400,
       message: errors.errors,
     };
     throw validationError;
