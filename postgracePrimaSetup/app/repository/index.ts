@@ -83,5 +83,25 @@ async function getAllAccounts() {
     }   
 }
 
+async function changeName ( name : string ,  email : string , password : string) {
 
-export  {createAccount , login , deleteAccount , getAllAccounts }
+   
+    try{
+        return await prisma.user.update({
+            where: {
+              email: email,
+              password : password
+            },
+            data: {
+              name: name,
+            },
+        })
+    }
+    catch(err){
+       console.log(err)
+       return 0
+    }   
+}
+
+
+export  {createAccount , login , deleteAccount , getAllAccounts, changeName }

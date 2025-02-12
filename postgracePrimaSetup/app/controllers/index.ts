@@ -1,4 +1,4 @@
-import {createAccount , login , deleteAccount , getAllAccounts} from '../repository/index'
+import {createAccount , login , deleteAccount , getAllAccounts , changeName} from '../repository/index'
 import { Request, Response } from 'express'
 
 async function handelCreateUserAccount(req: Request, res: Response) {
@@ -95,5 +95,28 @@ async function handelGetAllAccounts(req: Request, res: Response) {
 }
 
 
+async function handelChangeName(req: Request, res: Response) {
+    try {
+        console.log('req came', req.body)
+        const name: string = req?.body?.name;
+        const email: string = req?.body?.email;
+        const password: string = req?.body?.password;
 
-export { handelCreateUserAccount ,  handelLoginAccount ,  handelDeleteAccount , handelGetAllAccounts}
+        if (!email || !name || !password) {
+            // res.status(400).send('pls send name and email')
+            throw new Error ('pls send name, email and password')
+        }
+
+        const isAccountCreated = await changeName(name, email, password)
+        if(isAccountCreated == 0){
+            throw new Error ('account with this email already exist')
+        }
+       
+        res.status(201).json({msg:'account created successfully' , userDetails :isAccountCreated })
+
+    } catch (error : any) {
+        res.status(400).send({ error: error?.message })
+    }
+}
+
+export { handelCreateUserAccount ,  handelLoginAccount ,  handelDeleteAccount , handelGetAllAccounts , handelChangeName}
