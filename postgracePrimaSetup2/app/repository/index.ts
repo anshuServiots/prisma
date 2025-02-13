@@ -23,12 +23,13 @@ async function createAccount(userName: string, userEmail: string, userPassword: 
 }
 
 
-async function getHashedPassword(userEmail: string) {
+async function getHashedPassword(userId: string) {
 
     return await prisma.user.findUnique(
         {
             where: {
-                userEmail
+                userId ,
+                isDeleted : false
             },
             select: {
                 userPassword: true
@@ -42,7 +43,7 @@ async function getHashedPassword(userEmail: string) {
 
 
 async function isUserExist(email: string) {
-    return await prisma.user.findUnique({
+    return await prisma.user.findMany({
 
         where: {
             userEmail: email
@@ -50,12 +51,11 @@ async function isUserExist(email: string) {
     })
 }
 
-async function deleteAccount( userEmail: string) {
+async function deleteAccount( userId: string , ) {
 
-   
-        return await prisma.user.update({
+           return await prisma.user.update({
             where: {
-             userEmail
+             userId
             },
             data: {
               isDeleted : true

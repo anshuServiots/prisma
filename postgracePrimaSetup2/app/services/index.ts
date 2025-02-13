@@ -9,7 +9,7 @@ async function hashPassword(plainPassword: string) {
 }
 
 
-async function unHashPassword(plainPassword: string, hashedPassword: string) {
+async function unHashPassword(plainPassword: string, hashedPassword : string) {
     const ans = await bcrypt.compare(plainPassword, hashedPassword)
     return ans;
 }
